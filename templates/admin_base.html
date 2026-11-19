@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block judul %}Admin{% endblock %} – {{ p.nama_depan }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <nav>
+      <a class="logo" href="{{ url_for('home') }}">{{ p.inisial }}.</a>
+      <div class="links">
+        <a href="{{ url_for('home') }}">Lihat website</a>
+        {% if session.get('admin') %}
+          <a href="{{ url_for('admin') }}">Admin</a>
+          <a href="{{ url_for('logout') }}">Keluar</a>
+        {% endif %}
+        <button id="tema" type="button">Tema</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="admin-page">
+    <div class="wrap">
+      {% with pesan = get_flashed_messages() %}
+        {% if pesan %}<div class="ok show">{{ pesan[0] }}</div>{% endif %}
+      {% endwith %}
+      {% block isi %}{% endblock %}
+    </div>
+  </main>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

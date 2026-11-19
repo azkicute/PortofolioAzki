@@ -13,11 +13,13 @@ function ketik() {
   else { hapus = false; ri = (ri + 1) % roles.length; setTimeout(ketik, 300); }
 }
 
-// Hormati pengguna yang mematikan animasi
-if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  el.textContent = roles[0];
-} else {
-  ketik();
+// el hanya ada di halaman utama. Di halaman lain (CV, admin) dilewati.
+if (el) {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    el.textContent = roles[0];
+  } else {
+    ketik();
+  }
 }
 
 // ===== 2. Bar skill terisi saat terlihat di layar =====

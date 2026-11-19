@@ -1,0 +1,9 @@
+{% extends "admin_base.html" %}
+{% block judul %}Login{% endblock %}
+{% block isi %}
+  <h1 class="admin-title">Masuk admin</h1>
+  <form method="post" class="admin-form">
+    <label>Password <input type="password" name="password" required autofocus></label>
+    <div><button class="btn" type="submit">Masuk</button></div>
+  </form>
+{% endblock %}

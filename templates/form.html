@@ -1,0 +1,23 @@
+{% extends "admin_base.html" %}
+{% block judul %}{{ judul_halaman }}{% endblock %}
+{% block isi %}
+  <h1 class="admin-title">{{ judul_halaman }}</h1>
+  <form method="post" class="admin-form">
+    <label>Ikon (teks singkat, misalnya Web)
+      <input name="ikon" value="{{ data.ikon if data else '' }}" maxlength="12" required>
+    </label>
+    <label>Judul
+      <input name="judul" value="{{ data.judul if data else '' }}" required>
+    </label>
+    <label>Deskripsi
+      <textarea name="isi" required>{{ data.isi if data else '' }}</textarea>
+    </label>
+    <label>Tag (pisahkan dengan koma)
+      <input name="tag" value="{{ data.tag if data else '' }}" placeholder="HTML, CSS, Flask">
+    </label>
+    <div>
+      <button class="btn" type="submit">Simpan</button>
+      <a class="btn alt" href="{{ url_for('admin') }}">Batal</a>
+    </div>
+  </form>
+{% endblock %}
