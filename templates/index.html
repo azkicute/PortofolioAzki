@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portofolio – {{ p.nama_depan }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- url_for membuat alamat file di folder static -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <header>
+    <nav>
+      <a class="logo" href="#atas">{{ p.inisial }}.</a>
+      <div class="links">
+  <a class="hide" href="{{ url_for('cv') }}">CV</a>
+        <a class="hide" href="#tentang">Tentang</a>
+        <a class="hide" href="#skill">Skill</a>
+        <a class="hide" href="#proyek">Proyek</a>
+        <a href="#kontak">Kontak</a>
+        <button id="tema" type="button">Tema</button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="atas">
+
+    <div class="hero">
+      <div class="wrap">
+        <div>
+          <div class="hi">Halo, saya</div>
+          <h1>{{ p.nama_depan }} <span>{{ p.nama_belakang }}</span></h1>
+          <p class="role">Saya seorang Mahasiswa Informatika <b id="peran"></b><span class="cursor"></span></p>
+          <a class="btn" href="#proyek">Lihat proyek saya</a>
+          <a class="btn alt" href="#kontak">Hubungi saya</a>
+          <a class="btn alt" href="{{ url_for('cv') }}">Lihat CV</a>
+        </div>
+        <div class="photo">
+          <div class="blob">
+  <img src="{{ url_for('static', filename='img/Azki.jpg') }}" alt="Foto {{ p.nama_depan }}">
+</div>
+          <div class="sticker">{{ p.lokasi }}</div>
+        </div>
+      </div>
+    </div>
+
+    <section id="tentang">
+      <div class="wrap about">
+        <div>
+          <h2>Tentang saya</h2>
+          <p>Saya mahasiswa yang suka berkelana dan mengubah ide menjadi sesuatu yang bisa dipakai orang. Saya belajar membuat website dengan Flask, mendesain antarmuka, dan memecahkan masalah dengan logika yang rapi.</p>
+          <p>Di luar kuliah, saya aktif di organisasi kampus dan selalu mencari proyek baru untuk dicoba.</p>
+          <a class="btn alt" href="#kontak">Ayo berkolaborasi</a>
+        </div>
+        <div class="facts">
+          <div class="fact"><small>Kampus</small><strong>{{ p.kampus }}</strong></div>
+          <div class="fact"><small>Jurusan</small><strong>{{ p.jurusan }}</strong></div>
+          <div class="fact"><small>Minat</small><strong>{{ p.minat }}</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skill">
+      <div class="wrap">
+        <h2>Keahlian</h2>
+        <p class="sub">Alat dan bahasa yang saya pakai paling sering.</p>
+        <div class="skills">
+          <!-- Perulangan: satu blok HTML dibuat untuk setiap item di SKILLS -->
+          {% for s in skills %}
+          <div class="skill">
+            <label>{{ s.nama }} <span>{{ s.nilai }}%</span></label>
+            <div class="bar"><i data-w="{{ s.nilai }}"></i></div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <section id="proyek">
+      <div class="wrap">
+        <h2>Proyek pilihan</h2>
+        <p class="sub">Tiga karya yang paling saya banggakan.</p>
+        <div class="projects">
+          {% for x in proyek %}
+          <article class="card">
+            <div class="top">{{ x.ikon }}</div>
+            <div class="body">
+              <h3>{{ x.judul }}</h3>
+              <p>{{ x.isi }}</p>
+              <div class="tags">
+                {% for t in x.tag %}<span>{{ t }}</span>{% endfor %}
+              </div>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <section id="kontak">
+      <div class="wrap contact">
+        <div>
+          <h2>Mari ngobrol</h2>
+          <p class="sub">Punya proyek atau pertanyaan? Kirim pesan, saya balas secepatnya.</p>
+          <ul class="social">
+            <li><a href="mailto:{{ p.email }}">{{ p.email }}</a></li>
+            <li><a href="https://github.com/" target="_blank">Azkicute</a></li>
+            <li><a href="https://www.instagram.com/" target="_blank">Azzqv_</a></li>
+          </ul>
+        </div>
+
+        <!-- action="/kirim" mengirim data ke route kirim() di app.py -->
+        <form action="{{ url_for('kirim') }}" method="post">
+          <label>Nama <input name="nama" required></label>
+          <label>Email <input name="email" type="email" required></label>
+          <label>Pesan <textarea name="pesan" required></textarea></label>
+
+          <!-- Menampilkan pesan dari flash() di app.py -->
+          {% with pesan = get_flashed_messages() %}
+            {% if pesan %}<div class="ok show">{{ pesan[0] }}</div>{% endif %}
+          {% endwith %}
+
+          <button class="btn" type="submit">Kirim pesan</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer><div class="wrap">© 2026 {{ p.nama_depan }}. Dibuat dengan Flask, HTML, dan CSS.</div></footer>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
